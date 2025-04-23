@@ -1,12 +1,66 @@
-# React + Vite
+# Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimalist portfolio website built with React and Vite.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Running Locally
 
-## Expanding the ESLint configuration
+1. Install dependencies:
+   ```
+   npm install
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Start the development server:
+   ```
+   npm run dev
+   ```
+
+3. Open your browser and navigate to `http://localhost:5173`
+
+### Building for Production
+
+```
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Docker
+
+This project includes Docker configuration for easy deployment.
+
+### Building the Docker Image
+
+```
+docker build -t portfolio-website .
+```
+
+### Running with Docker
+
+```
+docker run -p 5173:5173 portfolio-website
+```
+
+### Using Docker Compose
+
+```
+docker-compose up -d
+```
+
+This will build the image if it doesn't exist and start the container. The website will be available at http://localhost:5173.
+
+## Customization
+
+- Update your profile information in `src/App.jsx`
+- Replace the placeholder image with your own in the `public` folder
+- Modify the CSS styles in `src/App.css`
+- Add or remove projects in the `projects` array in `src/App.jsx`
+
+## Technologies Used
+
+- React
+- Vite
+- CSS3
+- Docker
+- Nginx (for production deployment)
