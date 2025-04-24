@@ -40,7 +40,26 @@ jobs:
             cd ~/application/portfolio
             git pull
             cd ..
+            # Stop the container first to avoid the ContainerConfig error
+            docker-compose stop portfolio
+            
+            # Remove the container to ensure clean recreation
+            docker-compose rm -f portfolio
+            
+            # Rebuild the image
             docker-compose build portfolio
+            
+            # Start just the portfolio service
             docker-compose up -d portfolio
+            
+            # Check if container is running
+            sleep 5
+            if docker ps | grep portfolio; then
+              echo "Portfolio container successfully deployed"
+            else
+              echo "Portfolio container failed to start, checking logs:"
+              docker-compose logs portfolio
+              exit 1
+            fi
           '
     
