@@ -172,16 +172,53 @@ footer {
     align-items: center;
     gap: 2rem;
   }
-  
+
   .profile-image-container {
     margin-bottom: 0;
   }
-  
+
   .profile-content {
     flex: 1;
   }
-  
+
   .profile-content p {
     margin: 0;
   }
 }
+.chat-button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-button:hover {
+  background-color: #3050c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.try-button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.try-button:hover {
+  background-color: #3050c0;
+}
+
