@@ -7,8 +7,8 @@ import { createChat } from '@n8n/chat';
 function App() {
   // State to track which projects are expanded
   const [expandedProjects, setExpandedProjects] = useState({})
-  // State to track which chat to show
-  const [activeChat, setActiveChat] = useState(null)
+  // State to track if chat is visible
+  const [isChatVisible, setIsChatVisible] = useState(false)
 
   // Sample projects data
   const projects = [
@@ -42,76 +42,64 @@ function App() {
     }))
   }
 
-  // Function to show main chat
-  const showMainChat = () => {
-    setActiveChat('main')
+  // Function to show chat
+  const showChat = () => {
+    setIsChatVisible(true)
   }
 
-  // Function to show support chat
-  const showSupportChat = () => {
-    setActiveChat('support')
-  }
+  // Add chat styling for text visibility
+  useEffect(() => {
+    // Create a style element specifically targeting the input field text
+    const styleElement = document.createElement('style');
+    styleElement.id = 'chat-input-fix';
+    styleElement.textContent = `
+      /* Target specifically the input text with !important at highest specificity */
+      .n8n-chat__input-field, 
+      .n8n-chat__input-field::placeholder,
+      .n8n-chat textarea,
+      .n8n-chat input,
+      .n8n-chat__footer textarea,
+      .n8n-chat__footer input {
+        color: black !important;
+        background-color: white !important;
+        caret-color: black !important;
+        -webkit-text-fill-color: black !important;
+      }
+      
+      /* Force any potential parent elements to not override text color */
+      .n8n-chat__footer * {
+        color: inherit;
+      }
+      
+      /* Add a border to make the input area more visible */
+      .n8n-chat__input-container {
+        border: 1px solid #ccc !important;
+        background-color: white !important;
+      }
+    `;
+    document.head.appendChild(styleElement);
 
-useEffect(() => {
-  // Create a style element specifically targeting the input field text
-  const styleElement = document.createElement('style');
-  styleElement.id = 'chat-input-fix';
-  styleElement.textContent = `
-    /* Target specifically the input text with !important at highest specificity */
-    .n8n-chat__input-field, 
-    .n8n-chat__input-field::placeholder,
-    .n8n-chat textarea,
-    .n8n-chat input,
-    .n8n-chat__footer textarea,
-    .n8n-chat__footer input {
-      color: black !important;
-      background-color: white !important;
-      caret-color: black !important;
-      -webkit-text-fill-color: black !important;
-    }
-    
-    /* Force any potential parent elements to not override text color */
-    .n8n-chat__footer * {
-      color: inherit;
-    }
-    
-    /* Add a border to make the input area more visible */
-    .n8n-chat__input-container {
-      border: 1px solid #ccc !important;
-      background-color: white !important;
-    }
-  `;
-  document.head.appendChild(styleElement);
+    return () => {
+      const existingStyle = document.getElementById('chat-input-fix');
+      if (existingStyle) document.head.removeChild(existingStyle);
+    };
+  }, []);
 
-  return () => {
-    const existingStyle = document.getElementById('chat-input-fix');
-    if (existingStyle) document.head.removeChild(existingStyle);
-  };
-}, []);
-
-
-  // Load the chat based on activeChat state
+  // Load the chat when it becomes visible
   useEffect(() => {
     // Clean up any existing chat elements
     const existingChats = document.querySelectorAll('.n8n-chat');
     existingChats.forEach(el => el.remove());
 
-    if (!activeChat) return; // No chat to show
+    if (!isChatVisible) return; // No chat to show
 
-    const webhookUrl = activeChat === 'main'
-      ? 'https://brantford-tech.ca/webhook/382e8113-88a8-4cff-9b6d-d5d10e2e4b3a/chat'
-      : 'https://brantford-tech.ca/webhook/f14d0a7a-a9a7-48a4-8bdf-164a16454cdb/chat';
+    const webhookUrl = 'https://brantford-tech.ca/webhook/f14d0a7a-a9a7-48a4-8bdf-164a16454cdb/chat';
 
-    // Different initial messages for each chat type
-    const initialMessages = activeChat === 'main'
-      ? [
-          "Hi there! I'm Esha's AI assistant.",
-          "I can tell you about Esha's AI solutions and expertise. How can I help you today?"
-        ]
-      : [
-          "Welcome to our customer support!",
-          "I'm here to help with any questions or issues you might have. What can I assist you with today?"
-        ];
+    // Initial messages
+    const initialMessages = [
+      "Welcome to our customer support!",
+      "I'm here to help with any questions or issues you might have. What can I assist you with today?"
+    ];
 
     // Create chat with proper options
     const chatInstance = createChat({
@@ -119,10 +107,8 @@ useEffect(() => {
       initialMessages: initialMessages,
       i18n: {
         en: {
-          title: activeChat === 'main' ? 'AI Assistant' : 'Customer Support',
-          subtitle: activeChat === 'main'
-            ? "I can help answer questions about Esha's AI solutions."
-            : "I'm here to help with your customer service needs.",
+          title: 'Customer Support',
+          subtitle: "I'm here to help with your customer service needs.",
           inputPlaceholder: 'Type your question...',
         },
       }
@@ -134,8 +120,8 @@ useEffect(() => {
       const footer = document.querySelector('.n8n-chat__footer');
 
       if (inputField) {
-        inputField.style.color = '#333333';
-        inputField.style.backgroundColor = '#ffffff';
+        inputField.style.color = 'black';
+        inputField.style.backgroundColor = 'white';
         inputField.style.display = 'block';
         inputField.style.visibility = 'visible';
       }
@@ -147,7 +133,7 @@ useEffect(() => {
       }
     }, 500);
 
-  }, [activeChat]);
+  }, [isChatVisible]);
 
   return (
     <div className="portfolio-container">
@@ -174,9 +160,6 @@ useEffect(() => {
             I create AI solutions that help businesses streamline operations and
             extract insights from their data.
           </p>
-          <button onClick={showMainChat} className="chat-button">
-            Try My AI Assistant
-          </button>
         </div>
       </section>
 
@@ -200,7 +183,7 @@ useEffect(() => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent toggling the card
-                        showSupportChat();
+                        showChat();
                       }}
                       className="try-button"
                     >
