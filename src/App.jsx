@@ -79,7 +79,7 @@ function App() {
         </div>
 
         <div className="profile-content">
-          <h1>Esha Sherry - Test</h1>
+          <h1>Esha Sherry</h1>
           <h2>AI Solutions Architect</h2>
           <p>
             I build intelligent agentic workflows that solve real-world problems.
