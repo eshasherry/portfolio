@@ -33,12 +33,13 @@ jobs:
       - name: Deploy to DigitalOcean
         run: |
           # Clone the repo to the server if it doesn't exist yet
-          ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} '[ -d ~/portfolio ] || git clone ${{ github.repositoryUrl }} ~/portfolio'
+          ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} '[ -d ~/portfolio ] || git clone https://github.com/eshasherry/portfolio.git ~/portfolio'
           
           # Pull latest changes and rebuild
           ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} '
-            cd ~/portfolio
+            cd ~/application/portfolio
             git pull
+            cd ..
             docker-compose build portfolio
             docker-compose up -d portfolio
           '
