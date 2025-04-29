@@ -153,12 +153,11 @@ function App() {
 
         <div className="profile-content">
           <h1>Esha Sherry</h1>
-          <h2>AI Agentic Solutions Architect</h2>
+          <h2>AI Enthusiast</h2>
           <p>
-            I build intelligent agentic workflows that solve real-world problems.
-            With expertise in LLMs, prompt engineering, and workflow automation,
-            I create AI solutions that help businesses streamline operations and
-            extract insights from their data.
+            I've been in the IT industry for nearly a decade, working on cloud migration and integration projects.
+            In 2024, I was introduced to the world of AI — and it immediately captured my attention. Since then, I've been on an exciting journey to explore every aspect of it.
+            I'll be sharing my experiences and discoveries here as I dive deeper into the fascinating world of AI.
           </p>
         </div>
       </section>
@@ -199,7 +198,7 @@ function App() {
 
       {/* Footer */}
       <footer>
-        <p>© 2025 Esha Sherry | AI Agentic Solutions Architect</p>
+        <p>© 2025 Esha Sherry | AI Enthusiast</p>
       </footer>
     </div>
   )
