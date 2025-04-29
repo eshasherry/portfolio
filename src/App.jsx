@@ -172,7 +172,7 @@ function App() {
                 e.target.src = "https://via.placeholder.com/180";
               }}
           />
-          <h2>AI Enthusiast</h2>
+          <h2>Tech Enthusiast</h2>
         </div>
 
         <div className="profile-content">
@@ -238,7 +238,7 @@ function App() {
 
       {/* Footer */}
       <footer>
-        <p>© 2025 Esha Sherry | AI Enthusiast</p>
+        <p>© 2025 Esha Sherry | Tech Enthusiast</p>
       </footer>
     </div>
   )
