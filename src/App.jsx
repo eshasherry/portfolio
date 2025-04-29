@@ -91,7 +91,7 @@ function App() {
 
     if (!isChatVisible) return; // No chat to show
 
-    const webhookUrl = 'https://brantford-tech.ca/webhook/382e8113-88a8-4cff-9b6d-d5d10e2e4b3a/chat';
+    const webhookUrl = 'https://brantford-tech.ca/webhook/f14d0a7a-a9a7-48a4-8bdf-164a16454cdb/chat';
 
     // Initial messages
     const initialMessages = [
