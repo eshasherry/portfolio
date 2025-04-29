@@ -3,34 +3,32 @@ import './App.css'
 import profileImage from './assets/es.jpg'
 import '@n8n/chat/style.css';
 import { createChat } from '@n8n/chat';
+import NavBar from './NavBar';  // Import the NavBar component
 
 function App() {
   // State to track which projects are expanded
   const [expandedProjects, setExpandedProjects] = useState({})
   // State to track if chat is visible
   const [isChatVisible, setIsChatVisible] = useState(false)
+  // State to manage active section
+  const [activeSection, setActiveSection] = useState('home')
 
   // Sample projects data
   const projects = [
     {
-      id: 1,
-      title: "AI Document Analysis Workflow",
-      description: "An automated system that uses NLP to extract key information from legal documents, categorize content, and generate executive summaries. Built with LangChain and GPT-4."
-    },
-    {
       id: 2,
       title: "Conversational Customer Support Agent",
-      description: "An AI-powered virtual assistant that provides 24/7 customer support, handles common inquiries, and escalates complex issues to human agents when necessary. Features sentiment analysis, multi-language support, and integration with CRM systems."
-    },
+      description: "This is an AI powered customer support agent for a Gym. It can answer questions about the gym, provide information about classes, and assist with bookings.",
+    }
+  ]
+
+  // Sample blog posts data
+  const blogPosts = [
     {
-      id: 3,
-      title: "Automated Research Assistant",
-      description: "An agentic workflow that searches academic databases, extracts relevant information, and synthesizes findings into structured reports. Uses a combination of vector search and recursive summarization techniques."
-    },
-    {
-      id: 4,
-      title: "Meeting Insights Generator",
-      description: "A tool that transcribes meetings, identifies action items, summarizes key points, and generates follow-up tasks automatically. Built with Whisper API for transcription and a custom GPT model for insights extraction."
+      id: 1,
+      title: "How to build a Conversational AI Chatbot",
+      date: "April 29, 2025",
+      summary: "Build your own conversational Chatbot using n8n. This blog post will guide you through the process step by step.",
     }
   ]
 
@@ -98,7 +96,7 @@ function App() {
     // Initial messages
     const initialMessages = [
       "Welcome to our customer support!",
-      "I'm here to help with any questions or issues you might have. What can I assist you with today?"
+      "I'm here to help with any questions about the gym or your membership. What can I assist you with today?"
     ];
 
     // Create chat with proper options
@@ -135,35 +133,61 @@ function App() {
 
   }, [isChatVisible]);
 
+  // Track scrolling to update active section
+  useEffect(() => {
+    const handleScroll = () => {
+      const homeSection = document.getElementById('home');
+      const projectsSection = document.getElementById('projects');
+      const blogsSection = document.getElementById('blogs');
+
+      const scrollPosition = window.scrollY + 100; // Adding offset for navbar
+
+      if (blogsSection && scrollPosition >= blogsSection.offsetTop) {
+        setActiveSection('blogs');
+      } else if (projectsSection && scrollPosition >= projectsSection.offsetTop) {
+        setActiveSection('projects');
+      } else if (homeSection) {
+        setActiveSection('home');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="portfolio-container">
-      {/* Profile Section */}
-      <section className="profile-section">
+      {/* Navigation Bar */}
+      <NavBar activeSection={activeSection} />
+
+      {/* Profile/Home Section */}
+      <section id="home" className="profile-section">
         <div className="profile-image-container">
           <img
-            src={profileImage}
-            alt="Esha Sherry"
-            className="profile-image"
-            onError={(e) => {
-              console.error("Image failed to load");
-              e.target.src = "https://via.placeholder.com/180";
-            }}
+              src={profileImage}
+              alt="Esha Sherry"
+              className="profile-image"
+              onError={(e) => {
+                console.error("Image failed to load");
+                e.target.src = "https://via.placeholder.com/180";
+              }}
           />
+          <h2>AI Enthusiast</h2>
         </div>
 
         <div className="profile-content">
-          <h1>Esha Sherry</h1>
-          <h2>AI Enthusiast</h2>
+
+
           <p>
-            I've been in the IT industry for nearly a decade, working on cloud migration and integration projects.
+            I have worked on cloud migration and integration projects in the past, but I'm now diving into the world of AI.
             In 2024, I was introduced to the world of AI — and it immediately captured my attention. Since then, I've been on an exciting journey to explore every aspect of it.
-            I'll be sharing my experiences and discoveries here as I dive deeper into the fascinating world of AI.
+            I'll be sharing my experiences and discoveries here as I dive deeper into the ocean.
           </p>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section className="projects-section">
+      <section id="projects" className="projects-section">
         <h2>AI Workflow Projects</h2>
 
         <div className="project-list">
@@ -191,6 +215,22 @@ function App() {
                   )}
                 </div>
               )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Blogs Section */}
+      <section id="blogs" className="blogs-section">
+        <h2>Blog Posts</h2>
+
+        <div className="blog-list">
+          {blogPosts.map(post => (
+            <div key={post.id} className="blog-card">
+              <h3>{post.title}</h3>
+              <p className="blog-date">{post.date}</p>
+              <p>{post.summary}</p>
+              <a href="#" className="read-more">Read More</a>
             </div>
           ))}
         </div>
